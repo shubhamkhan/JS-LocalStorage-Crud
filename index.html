@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <title>Hello, world!</title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+
+         // Show data
+         window.onload = function() {
+
+            if(JSON.parse(localStorage.getItem('dataset')).length > 0){
+                let data = JSON.parse(localStorage.getItem('dataset'));
+
+                text = '<th scope="col">First Name</th><th scope="col">Last Name</th><th scope="col">Action</th>';
+
+                let tr = document.createElement("TR");
+                tr.appendChild(document.createElement("TD"))
+                document.getElementById("AddTable").appendChild(tr);
+
+                for (i = 0; i < data.length; i++) {
+
+                    text += "<tr><td>" + data[i].first_name + "</td>";
+                    text += "<td>" + data[i].last_name + "</td>";
+                    text += '<td><button type="button" id="updateItem" class="btn btn-sm btn-primary mx-2" onclick="editTableRow('+i+')" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button><button type="button" class="btn btn-sm btn-danger" id="'+i+'" onclick="deleteTableRow('+i+')">Delete</button></td></tr>'
+                }
+                document.getElementById("AddTable").innerHTML = text;
+            }
+        };
+
+        // Create container
+        let div = document.createElement("DIV");
+        div.className = "container";
+        document.body.appendChild(div);
+
+            // Create button
+            let addbtn = document.createElement("BUTTON");
+            addbtn.id = "addItem";
+            addbtn.className = "btn btn-sm mt-2 btn-primary";
+            addbtn.setAttribute("data-bs-toggle", "modal");
+            addbtn.setAttribute("data-bs-target", "#exampleModal");
+            addbtn.innerText = "Add Item";
+            div.appendChild(addbtn);
+
+            // Create table
+            let table = document.createElement("TABLE");
+            table.className = "table text-center";
+            table.id = "AddTable";
+            div.appendChild(table);
+
+            // Create modal
+            let model = document.createElement("DIV");
+            model.id = "exampleModal";
+            model.className = "modal fade";
+            model.setAttribute("tabindex", "-1");
+            model.setAttribute("aria-labelledby", "modalLabel");
+            model.setAttribute("aria-hidden", "true");
+
+                let modaldialog = document.createElement("DIV");
+                modaldialog.className = "modal-dialog";
+                model.appendChild(modaldialog);
+
+                    let modalcontent = document.createElement("DIV");
+                    modalcontent.className = "modal-content";
+                    modaldialog.appendChild(modalcontent);
+
+                        // modal header
+                        let modalheader = document.createElement("DIV");
+                        modalheader.className = "modal-header";
+                        modalcontent.appendChild(modalheader);
+
+                            let modaltitle = document.createElement("H5");
+                            modaltitle.id = "modalLabel";
+                            modaltitle.className = "modal-title";
+                            modalheader.appendChild(modaltitle);
+
+                            let btnclose = document.createElement("BUTTON");
+                            btnclose.className = "btn-close";
+                            btnclose.type = "button";
+                            btnclose.setAttribute("data-bs-dismiss", "modal");
+                            btnclose.setAttribute("aria-label", "Close");
+                            modalheader.appendChild(btnclose);
+
+                            // modal body
+                        let modalbody = document.createElement("DIV");
+                        modalbody.className = "modal-body";
+                        modalcontent.appendChild(modalbody);
+
+                            let modalform = document.createElement("FORM");
+                            modalform.className = "row p-3";
+                            modalbody.appendChild(modalform);
+
+                                    //  First Name
+                                let modalbodyfirstName = document.createElement("DIV");
+                                modalbodyfirstName.className = "mb-3 row";
+                                modalform.appendChild(modalbodyfirstName);
+
+                                    let labelfirstName = document.createElement("LABEL");
+                                    labelfirstName.className = "col-sm-4 col-form-label";
+                                    labelfirstName.setAttribute("for", "firstName");
+                                    labelfirstName.innerText = "First Name";
+                                    modalbodyfirstName.appendChild(labelfirstName);
+
+                                    let divinputfirstName = document.createElement("DIV");
+                                    divinputfirstName.className = "col-sm-8";
+                                    modalbodyfirstName.appendChild(divinputfirstName);
+
+                                        let inputfirstName = document.createElement("INPUT");
+                                        inputfirstName.id = "firstName";
+                                        inputfirstName.className = "form-control";
+                                        inputfirstName.type = "text";
+                                        divinputfirstName.appendChild(inputfirstName);
+
+                                    //  Last Name
+                                let modalbodylastName = document.createElement("DIV");
+                                modalbodylastName.className = "mb-3 row";
+                                modalform.appendChild(modalbodylastName);
+
+                                    let labellastName = document.createElement("LABEL");
+                                    labellastName.className = "col-sm-4 col-form-label";
+                                    labellastName.setAttribute("for", "lastName");
+                                    labellastName.innerText = "Last Name";
+                                    modalbodylastName.appendChild(labellastName);
+
+                                    let divinputlastName = document.createElement("DIV");
+                                    divinputlastName.className = "col-sm-8";
+                                    modalbodylastName.appendChild(divinputlastName);
+
+                                        let inputlastName = document.createElement("INPUT");
+                                        inputlastName.id = "lastName";
+                                        inputlastName.className = "form-control";
+                                        inputlastName.type = "text";
+                                        divinputlastName.appendChild(inputlastName);
+
+                        // modal footer
+                        let modalfooter = document.createElement("DIV");
+                        modalfooter.id = "modalButton";
+                        modalfooter.className = "modal-footer";
+                        modalcontent.appendChild(modalfooter);
+
+                            // Create insert button
+                            let insertbtn = document.createElement("BUTTON");
+                            insertbtn.id = "insertItem";
+                            insertbtn.className = "btn btn-primary";
+                            insertbtn.type = "submit";
+                            insertbtn.setAttribute("data-bs-dismiss", "modal");
+                            insertbtn.innerText = "Add Item";
+                            modalfooter.appendChild(insertbtn);
+
+                            // hiden input
+                            let inputhid = document.createElement("INPUT");
+                            inputhid.id = "hid";
+                            inputhid.type = "hidden";
+                            inputhid.value = "";
+                            modalcontent.appendChild(inputhid);
+
+        div.appendChild(model);
+
+        // Add item modal
+        document.getElementById("addItem").addEventListener("click", function() {
+            document.getElementById("firstName").value = '';
+            document.getElementById("lastName").value = '';
+            document.getElementById("hid").value = '-1';
+
+            document.getElementById("modalLabel").innerText = "Add Item";
+            document.getElementById("insertItem").innerText = "Add";         
+        });
+
+        // Insert data
+        document.getElementById("insertItem").onclick = function () 
+        {
+            let first_name = document.getElementById("firstName").value;
+            let last_name = document.getElementById("lastName").value;
+
+            items = { 
+                'first_name': first_name,
+                'last_name': last_name,
+            };
+
+            if(first_name && last_name) {
+                if(localStorage.getItem('dataset')){
+                    let data = JSON.parse(localStorage.getItem('dataset'));
+                    data.push(items);
+                    localStorage.setItem('dataset', JSON.stringify(data));
+                
+                    // let first_name = document.getElementById("firstName").value;
+                } else {
+                    localStorage.setItem('dataset', JSON.stringify([items]));
+                }
+
+                window.location.href = "/";
+            }
+
+        }   
+        
+        document.getElementById("updateItem").onclick = function () 
+        {
+            let first_name = document.getElementById("firstName").value;
+            let last_name = document.getElementById("lastName").value;
+
+            items = { 
+                'first_name': first_name,
+                'last_name': last_name,
+            };
+
+            if(localStorage.getItem('dataset')){
+                let data = JSON.parse(localStorage.getItem('dataset'));
+                data.push(items);
+                localStorage.setItem('dataset', JSON.stringify(data));
+                
+            let first_name = document.getElementById("firstName").value;
+            } else {
+                localStorage.setItem('dataset', JSON.stringify([items]));
+            }
+
+            window.location.href = "/";
+        } 
+
+        // Update data modal
+        function editTableRow(x) {
+            let data = JSON.parse(localStorage.getItem('dataset'));
+            document.getElementById("firstName").value = data[x].first_name;
+            document.getElementById("lastName").value = data[x].last_name;
+
+            document.getElementById("modalLabel").innerText = "Update Item";
+            document.getElementById("insertItem").innerText = "Update";
+            document.getElementById("modalButton").innerHTML = '<button type="submit" id="insertItem" onclick="updateTable('+x+')" class="btn btn-primary" data-bs-dismiss="modal">Update</button>';
+        }
+
+        // Update data
+        function updateTable(x) {
+            let data = JSON.parse(localStorage.getItem('dataset'));
+            let first_name = document.getElementById("firstName").value;
+            let last_name = document.getElementById("lastName").value;
+
+            data[x].first_name = first_name;
+            data[x].last_name = last_name;
+
+            localStorage.setItem('dataset', JSON.stringify(data));
+            window.location.href = "/";
+        }
+
+        // Delete data
+        function deleteTableRow(x) {
+            let data = JSON.parse(localStorage.getItem('dataset'));
+            data.splice(x, 1);
+            localStorage.setItem('dataset', JSON.stringify(data));
+            if(data.length === 0){
+                document.getElementById("AddTable").deleteTHead();
+            }
+            
+            window.location.href = "/";
+        }
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</html>
